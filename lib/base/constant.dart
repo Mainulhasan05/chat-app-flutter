@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class Constant {
   static String imagePath = "assets/images/";
   static String iconPath = "assets/icons/";
-  static String imageDomain = "https://chatapi.mainulhasan05.xyz";
-  static String domain = "https://chatapi.mainulhasan05.xyz";
+  static String imageDomain = "http://192.168.0.10:5000";
+  static String domain = "http://192.168.0.10:5000";
 
   static backToPrev(BuildContext context) {
     Navigator.of(context).pop();

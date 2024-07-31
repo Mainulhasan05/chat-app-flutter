@@ -45,7 +45,7 @@ void onStart(ServiceInstance service) async {
   socket.onDisconnect((_) {
     print('Disconnected');
   });
-  socket.on("event-name", (data) {
+  socket.on("event-name1", (data) {
     //do something here like pushing a notification
   });
   service.on("stop").listen((event) {
@@ -55,8 +55,9 @@ void onStart(ServiceInstance service) async {
 
   service.on("start").listen((event) {});
 
-  Timer.periodic(const Duration(seconds: 1), (timer) {
-    socket.emit("event-name", "your-message");
+  Timer.periodic(const Duration(seconds: 10), (timer) {
+    socket.emit("event-name",
+        "service is successfully running ${DateTime.now().second}");
     print("service is successfully running ${DateTime.now().second}");
   });
 }
