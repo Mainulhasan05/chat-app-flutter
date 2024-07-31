@@ -1,0 +1,99 @@
+abstract class Routes {
+  static const homeRoute = Paths.homepath;
+  static const introRoute = Paths.introPath;
+  static const loginRoute = Paths.loginPath;
+  static const forgotRoute = Paths.forgotPath;
+  static const resetPasswordRoute = Paths.resetPasswordPath;
+  static const changePasswordRoute = Paths.changePasswordPath;
+  static const signupRoute = Paths.signUpPath;
+  static const verifyRoute = Paths.verifyPath;
+  static const dynamicPageRoute = Paths.dynamicPagePath;
+  static const homeScreenRoute = Paths.homescreenPath;
+  static const productDetailsRoute = Paths.productDetailsPath;
+  static const allProductsRoute = Paths.allProductsPath;
+  static const categoryRoute = Paths.categoryPath;
+  static const detailRoute = Paths.detailPath;
+  static const cartRoute = Paths.cartPath;
+  static const paymentRoute = Paths.paymentPath;
+  static const orderDetailRoute = Paths.orderDetailPath;
+  static const profileRoute = Paths.profilePath;
+  static const editProfileRoute = Paths.editProfilePath;
+  static const myAddressRoute = Paths.myAddressPath;
+  static const editAddressRoute = Paths.editAddressPath;
+  static const cardRoute = Paths.cardPath;
+  static const settingRoute = Paths.settingPath;
+  static const notificationRoutes = Paths.notificationPath;
+  static const searchRoute = Paths.searchPath;
+  static const searchResultRoute = Paths.searchResultPath;
+  static const bookingRoute = Paths.bookingPath;
+  static const helpRoute = Paths.helpPath;
+  static const privacyRoute = Paths.privacyPath;
+  static const securityRoute = Paths.securityPath;
+  static const termOfServiceRoute = Paths.termOfServicePath;
+
+  static const categoryProductRoute = Paths.categoryProduct;
+  static const orderListRoute = Paths.orderList;
+  static const shopPageRoute = Paths.shopPage;
+  static const onlinePaymentRoute = Paths.onlinePayment;
+  static const aboutusRoute = Paths.aboutUsPage;
+  // static const allProductRoute = Paths.allProductPage;
+  static const campaignPageRoute = Paths.campaignPage;
+  static const orderSuccessRoute = Paths.orderSuccess;
+  static const loginTabRoute = Paths.loginTab;
+  static const orderSuccessPageRoute = Paths.orderSuccessPage;
+  static const otpConfirmRoute = Paths.otpScreenPage;
+  static const shopProductsRoute = Paths.shopProducts;
+  static const brandPorductsRoute = Paths.brandProducts;
+  static const confirmForgetPassOtpRoute = Paths.confirmForgetPassOtpPath;
+}
+
+abstract class Paths {
+  static const homepath = "/";
+  static const introPath = "/IntroScreen";
+  static const loginPath = "/LoginScreen";
+  static const forgotPath = "/ForgotPassword";
+  static const resetPasswordPath = "/ResetPassword";
+  static const changePasswordPath = "/ChangePassword";
+  static const signUpPath = "/SignUpScreen";
+  static const verifyPath = "/VerifyScreen";
+  static const homescreenPath = "/HomeScreen";
+  static const productDetailsPath = "/ProductScreen";
+  static const allProductsPath = "/AllProductScreen";
+  static const dynamicPagePath = "/DynamicPageScreen";
+  static const categoryPath = "/CategoryScreen";
+  static const detailPath = "/DetailScreen";
+  static const cartPath = "/CartScreen";
+  static const paymentPath = "/PaymentScreen";
+  static const orderDetailPath = "/OrderDetail";
+  static const profilePath = "/ProfileScreen";
+  static const editProfilePath = "/EditProfileScreen";
+  static const myAddressPath = "/MyAddressScreen";
+  static const editAddressPath = "/EditAddressScreen";
+  static const cardPath = "/CardScreen";
+  static const settingPath = "/SettingScreen";
+  static const notificationPath = "/NotificationScreen";
+  static const searchPath = "/SearchScreen";
+  static const searchResultPath = "/SearchResultScreen";
+  static const bookingPath = "/BookingDetail";
+  static const helpPath = "/HelpScreen";
+  static const privacyPath = "/PrivacyScreen";
+  static const securityPath = "/SecurityScreen";
+  static const termOfServicePath = "/TermOfServiceScreen";
+
+  // newly added
+  static const categoryProduct = "/CategoryProduct";
+  static const orderList = "/OrderList";
+  static const shopPage = "/ShopPage";
+  static const onlinePayment = "/OnlinePayment";
+  static const aboutUsPage = "/AboutUsPage";
+  static const allProductPage = "/AllProductPage";
+  static const campaignPage = "/CampaignPage";
+  static const orderSuccess = "/OrderSuccess";
+  static const loginTab = "/LoginTab";
+  static const orderSuccessPage = "/OrderSuccessPage";
+  static const otpScreenPage = "/OtpScreenPage";
+  static const shopProducts = "/ShopProducts";
+  static const brandProducts = "/BrandProducts";
+  // ConfirmForgetPassOtp
+  static const confirmForgetPassOtpPath = "/ConfirmForgetPassOtp";
+}
