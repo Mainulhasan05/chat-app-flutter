@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../base/color_data.dart';
-import '../../../../base/common_widgets.dart';
 import '../../../../base/constant.dart';
 import '../../../../base/resizer/fetch_pixels.dart';
 
@@ -15,17 +14,43 @@ import '../../../../controllers/home/home_controller.dart';
 
 import '../../../routes/app_routes.dart';
 
-class TabHome extends StatelessWidget {
-  final HomeController homeController = Get.put(HomeController());
+class TabHome extends StatefulWidget {
+  @override
+  State<TabHome> createState() => _TabHomeState();
+}
 
-  final AuthController authController = Get.put(AuthController());
-  List<String> photosUrl = [
-    "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/1667088/pexels-photo-1667088.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        "https://images.pexels.com/photos/2928381/pexels-photo-2928381.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/4033324/pexels-photo-4033324.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/4033324/pexels-photo-4033324.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+class _TabHomeState extends State<TabHome> {
+  bool _isLoading = true;
+  // set loading to false after 3 seconds
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
+  final List<Chat> chats = [
+    Chat('Jenny Wilson', 'Hope you are doing well...', '3m ago',
+        'assets/jenny.png'),
+    Chat('Esther Howard', 'Hello Abdullah! I am...', '8m ago',
+        'assets/esther.png'),
+    Chat(
+        'Ralph Edwards', 'Do you have update...', '5d ago', 'assets/ralph.png'),
+    Chat('Jacob Jones', 'You\'re welcome :)', '5d ago', 'assets/jacob.png'),
+    Chat('Albert Flores', 'Thanks', '5d ago', 'assets/albert.png'),
+    Chat('Jenny Wilson', 'Hope you are doing well...', '3m ago',
+        'assets/jenny.png'),
+    Chat('Esther Howard', 'Hello Abdullah! I am...', '8m ago',
+        'assets/esther.png'),
+    Chat(
+        'Ralph Edwards', 'Do you have update...', '5d ago', 'assets/ralph.png'),
+    Chat('Jacob Jones', 'You\'re welcome :)', '5d ago', 'assets/jacob.png'),
+    Chat('Albert Flores', 'Thanks', '5d ago', 'assets/albert.png'),
   ];
+
   @override
   Widget build(BuildContext context) {
     FetchPixels(context);
@@ -33,21 +58,18 @@ class TabHome extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false, // Remove the default back button
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment
               .spaceBetween, // Space between the menu and other icons
           children: [
-            IconButton(
-              icon: SvgPicture.asset(
-                Constant.iconPath + 'menu.svg',
+            Text(
+              'Chats',
+              style: TextStyle(
                 color: Colors.black,
-                width: 24,
-                height: 24,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
               ),
-              onPressed: () {
-                // Handle menu button press
-              },
             ),
             Row(
               children: [
@@ -126,151 +148,104 @@ class TabHome extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8.0),
-                  Container(
-                    height: 48.0,
-                    width: 48.0,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.tune, color: Colors.white),
-                      onPressed: () {
-                        // Handle filter button press
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
 
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Exclusive Sales',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      authController.onTabTapped(1);
-                    },
-                    child: Text(
-                      'SEE ALL',
-                      style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 8),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CategoryCard extends StatelessWidget {
-  final String title;
-  final String imagePath; // Add imagePath parameter
-
-  const CategoryCard({Key? key, required this.title, required this.imagePath})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 100,
-        height: 79, // Adjusted to fit image and text
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: borderColor, width: 2),
-        ),
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Display image or placeholder
-            Container(
-              width: 50, // Adjust the width and height as needed
-              height: 40,
-              child: imagePath.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: imagePath,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Skeletonizer(
-                        enabled: true,
+            _isLoading
+                ? ListView.builder(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          color: Colors.grey[300],
+                          height: 80,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
-                      ),
-                    )
-                  : Image.network(
-                      'https://api.mainulhasan05.xyz/uploads/categories/1711695697006-Designer%20(10).jpeg'),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: TextStyle(
-                color: categoryTextColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-              ),
-              maxLines: 1,
-              textAlign: TextAlign.center,
-            ),
+                      );
+                    },
+                  )
+                : ListView.builder(
+                    itemCount: chats.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Constant.sendToNext(context, Routes.chatDetailRoute);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 30.0,
+                                backgroundImage: CachedNetworkImageProvider(
+                                  "https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740",
+                                ),
+                              ),
+                              const SizedBox(width: 12.0),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    chats[index].name,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Text(
+                                    chats[index].message,
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              Text(
+                                chats[index].time,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Handle add chat action
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
 }
 
-// class ProductCard extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: 2,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Expanded(
-//             child: Container(
-//               decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                   image: AssetImage(
-//                       'assets/product_placeholder.png'), // Replace with your product image
-//                   fit: BoxFit.cover,
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Text(
-//               'Product Name',
-//               style: TextStyle(fontWeight: FontWeight.bold),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-//             child: Text('\$99.99'), // Replace with your product price
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class Chat {
+  final String name;
+  final String message;
+  final String time;
+  final String avatar;
 
-
+  Chat(this.name, this.message, this.time, this.avatar);
+}

@@ -26,6 +26,10 @@ class HttpRequestHelper {
       String endpoint, Map<String, dynamic> data) async {
     final response = await http.post(Uri.parse('$baseUrl$endpoint'),
         headers: _getHeaders(), body: json.encode(data));
+    print(Constant.domain);
+    print('$baseUrl$endpoint');
+    print(json.encode(data));
+
     return _handleResponse(response);
   }
 

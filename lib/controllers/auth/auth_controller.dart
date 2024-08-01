@@ -46,24 +46,21 @@ class AuthController extends GetxController {
     } else if (loginPasswordController.text.isEmpty) {
       Get.snackbar('Error', 'Password is required');
     } else {
-      // /account/login , body will  be telephone, password
-      var cartToken = await PrefData.getCartToken();
       final data = {
-        "email_or_phone": loginPhoneController.text,
+        "phone": loginPhoneController.text,
         "password": loginPasswordController.text,
-        "cart_token": cartToken,
       };
       try {
         isLoading.value = true;
-        final response = await HttpRequestHelper.post('/customer-login', data);
-
-        if (response['token'] != null) {
+        print(data);
+        final response = await HttpRequestHelper.post('/auth/login', data);
+        print(response);
+        if (response['success']) {
           isLoggedIn.value = true;
+          Constant.showToast('Login successful');
           await PrefData.setLogIn(true);
-          await PrefData.setToken(response['token']);
-          userInformation.value = response['customer'];
-          Fluttertoast.showToast(
-              msg: response['message'], gravity: ToastGravity.CENTER);
+          await PrefData.setToken(response['data']['token']);
+
           Constant.sendToNext(Get.context!, Routes.homeScreenRoute);
         } else {
           Fluttertoast.showToast(
@@ -85,19 +82,16 @@ class AuthController extends GetxController {
       Get.snackbar('Error', 'Password is required');
     } else if (registerFnameController.text.isEmpty) {
       Get.snackbar('Error', 'First name is required');
-    } else if (registerLnameController.text.isEmpty) {
-      Get.snackbar('Error', 'Last name is required');
     } else {
       final data = {
-        "email": registerPhoneController.text,
+        "phone": registerPhoneController.text,
         "password": registerPasswordController.text,
-        "first_name": registerFnameController.text,
-        "last_name": registerLnameController.text,
+        "full_name": registerFnameController.text,
       };
 
       try {
         isLoading.value = true;
-        final response = await HttpRequestHelper.post('/add-customer', data);
+        final response = await HttpRequestHelper.post('/auth/register', data);
 
         if (response['token'] != null) {
           isLoggedIn.value = true;

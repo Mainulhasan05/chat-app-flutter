@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _tabs = [
     TabHome(),
     TabCategories(),
-    TabCart(),
     TabProfile(),
     LoginScreen(),
   ];
@@ -68,35 +67,24 @@ class _HomeScreenState extends State<HomeScreen> {
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   authController.selectedIndex.value == 0
-                      ? '${Constant.iconPath}home_fill.svg'
-                      : '${Constant.iconPath}home.svg',
+                      ? '${Constant.iconPath}chat_filled.svg'
+                      : '${Constant.iconPath}chat.svg',
                   color: authController.selectedIndex.value == 0
                       ? primaryColor
                       : bottomNav,
                 ),
-                label: 'Home',
+                label: 'Chats',
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   authController.selectedIndex.value == 1
-                      ? '${Constant.iconPath}category_fill.svg'
-                      : '${Constant.iconPath}category.svg',
+                      ? '${Constant.iconPath}group_filled.svg'
+                      : '${Constant.iconPath}group.svg',
                   color: authController.selectedIndex.value == 1
                       ? primaryColor
                       : bottomNav,
                 ),
-                label: 'Categories',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  authController.selectedIndex.value == 2
-                      ? '${Constant.iconPath}cart_fill.svg'
-                      : '${Constant.iconPath}cart.svg',
-                  color: authController.selectedIndex.value == 2
-                      ? primaryColor
-                      : bottomNav,
-                ),
-                label: 'My Cart',
+                label: 'Groups',
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(

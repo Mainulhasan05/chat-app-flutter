@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 10),
               Center(
                 child: Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                  'Welcome to ChatApp',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.grey,
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: FetchPixels.getPixelHeight(40)),
               Text(
-                'Email Address',
+                'Phone',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
@@ -65,9 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: FetchPixels.getPixelHeight(10)),
               TextField(
                 controller: authController.loginPhoneController,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  hintText: 'Enter your email',
+                  hintText: 'Enter your phone',
                   hintStyle: const TextStyle(
                       color: Color(0xFF7B7B7B),
                       fontWeight: FontWeight.w400,

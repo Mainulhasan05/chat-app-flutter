@@ -23,17 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    homeController.getHomepageData();
+    print("hello bro");
     handleLoadings();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
     ));
-
-    // Simulate some startup delay
-    Future.delayed(const Duration(seconds: 3), () {
-      Constant.sendToNext(context, Routes.homeScreenRoute);
-    });
   }
 
   void handleLoadings() async {
@@ -44,8 +39,14 @@ class _SplashScreenState extends State<SplashScreen> {
     print(isLoggedin);
 
     if (authToken == "" || authToken == null) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Constant.sendToNext(context, Routes.loginRoute);
+      });
     } else {
       HttpRequestHelper.setAuthToken(authToken);
+      Future.delayed(const Duration(seconds: 3), () {
+        Constant.sendToNext(context, Routes.homeScreenRoute);
+      });
     }
     if (isLoggedin == true) {
       authController.isLoggedIn.value = true;
@@ -59,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Color(0xFF2799D5), // Primary color
       body: Center(
         child: Text(
-          'ImplyCart',
+          'ChatAPP',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
