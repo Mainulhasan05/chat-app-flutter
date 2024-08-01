@@ -57,7 +57,7 @@ class AuthController extends GetxController {
         print(response);
         if (response['success']) {
           isLoggedIn.value = true;
-          Constant.showToast('Login successful');
+          Constant.showToast(response['message']);
           await PrefData.setLogIn(true);
           await PrefData.setToken(response['data']['token']);
 
@@ -93,14 +93,13 @@ class AuthController extends GetxController {
         isLoading.value = true;
         final response = await HttpRequestHelper.post('/auth/register', data);
 
-        if (response['token'] != null) {
+        if (response['status']) {
           isLoggedIn.value = true;
           await PrefData.setLogIn(true);
-          await PrefData.setToken(response['token']);
-          Get.snackbar('Success', 'Registration successful');
-          userInformation.value = response['customer'];
-          Fluttertoast.showToast(
-              msg: response['message'], gravity: ToastGravity.CENTER);
+          await PrefData.setToken(response['data']['token']);
+          Constant.showToast(response['message']);
+          userInformation.value = response['data']['user'];
+
           Constant.sendToNext(Get.context!, Routes.homeScreenRoute);
         } else {
           final snackBar = SnackBar(
@@ -124,10 +123,11 @@ class AuthController extends GetxController {
       await PrefData.setLogIn(false);
       PrefData.setToken('');
       HttpRequestHelper.setAuthToken('');
-      onTabTapped(0);
-      Get.snackbar('Success', 'Logout successful');
+
+      Constant.showToast('Logout successful',
+          color: Colors.green, textColor: Colors.white);
       userInformation.value = {};
-      Constant.sendToNext(Get.context!, Routes.homeScreenRoute);
+      Constant.sendToNext(Get.context!, Routes.loginRoute);
     } catch (e) {
       print(e);
     }

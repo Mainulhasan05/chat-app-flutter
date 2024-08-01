@@ -103,14 +103,13 @@ class _TabProfileState extends State<TabProfile> {
                     // Handle payment method tap
                   },
                 ),
-                buildCustomTile(
-                  icon: Icons.history,
-                  title: 'Order History',
-                  onTap: () {
-                    // Constant.sendToNext(context, Routes.orderListRoute);
-                  },
-                ),
-                buildSectionTitle('Personal Information'),
+                // buildCustomTile(
+                //   icon: Icons.history,
+                //   title: 'Order History',
+                //   onTap: () {
+                //     // Constant.sendToNext(context, Routes.orderListRoute);
+                //   },
+                // ),
                 buildSectionTitle('Personal Information'),
                 buildCustomTile(
                   icon: Icons.lock,

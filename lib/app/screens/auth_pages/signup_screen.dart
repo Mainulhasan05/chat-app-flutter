@@ -59,7 +59,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'First Name',
+                          'Full Name',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
@@ -71,58 +71,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         TextField(
                           controller: authController.registerFnameController,
                           decoration: InputDecoration(
-                            hintText: 'First Name',
-                            hintStyle: const TextStyle(
-                                color: Color(0xFF7B7B7B),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                fontFamily: 'Poppins'),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: authBorderColor,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: authBorderColor,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: authBorderColor,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 12.0),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Last Name',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        SizedBox(height: FetchPixels.getPixelHeight(10)),
-                        TextField(
-                          controller: authController.registerLnameController,
-                          decoration: InputDecoration(
-                            hintText: 'Last Name',
+                            hintText: 'Full Name',
                             hintStyle: const TextStyle(
                                 color: Color(0xFF7B7B7B),
                                 fontWeight: FontWeight.w400,
@@ -159,7 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                'Email',
+                'Phone',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
@@ -170,9 +119,9 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: FetchPixels.getPixelHeight(10)),
               TextField(
                 controller: authController.registerPhoneController,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  hintText: 'Enter your email',
+                  hintText: 'Enter your phone',
                   hintStyle: const TextStyle(
                       color: Color(0xFF7B7B7B),
                       fontWeight: FontWeight.w400,
