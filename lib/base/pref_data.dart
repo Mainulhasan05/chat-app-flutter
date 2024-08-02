@@ -8,6 +8,7 @@ class PrefData {
   static final String userName = "${prefName}userName";
   static final String userPhone = "${prefName}userPhone";
   static final String userImage = "${prefName}userImage";
+  static final String roomId = "${prefName}roomId";
 
   // Other keys
   static final String introAvailable = "${prefName}isIntroAvailable";
@@ -84,22 +85,24 @@ class PrefData {
     return prefs.getString(getDefaultCountry) ?? defCountryName;
   }
 
-  static Future<void> setUserInfo(
-      String id, String name, String phone, String image) async {
+  static Future<void> setUserInfo(String id, String name, String phone,
+      String image, String room_id) async {
     final prefs = await _preferences;
     await prefs.setString(userId, id);
     await prefs.setString(userName, name);
     await prefs.setString(userPhone, phone);
     await prefs.setString(userImage, image);
+    await prefs.setString(roomId, room_id);
   }
 
   static Future<Map<String, String>> getUserInfo() async {
     final prefs = await _preferences;
     return {
       "id": prefs.getString(userId) ?? "",
-      "name": prefs.getString(userName) ?? "",
+      "full_name": prefs.getString(userName) ?? "",
       "phone": prefs.getString(userPhone) ?? "",
-      "image": prefs.getString(userImage) ?? "",
+      "avatar": prefs.getString(userImage) ?? "",
+      "room_id": prefs.getString(roomId) ?? "",
     };
   }
 }

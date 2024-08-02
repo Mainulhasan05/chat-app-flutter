@@ -34,32 +34,19 @@ class _TabProfileState extends State<TabProfile> {
                       padding: EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          const CircleAvatar(
+                          CircleAvatar(
                             radius: 30.0,
                             backgroundImage: NetworkImage(
-                                'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg'),
+                                authController.userInformation.value['avatar']),
                           ),
-                          SizedBox(width: 16.0),
+                          const SizedBox(width: 16.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                (authController.userInformation
-                                                    .value['first_name'] ??
-                                                '') +
-                                            ' ' +
-                                            (authController.userInformation
-                                                    .value['last_name'] ??
-                                                '') !=
-                                        ' '
-                                    ? (authController.userInformation
-                                                .value['first_name'] ??
-                                            '') +
-                                        ' ' +
-                                        (authController.userInformation
-                                                .value['last_name'] ??
-                                            '')
-                                    : 'User Name',
+                                (authController
+                                        .userInformation.value['full_name'] ??
+                                    ''),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
@@ -68,7 +55,7 @@ class _TabProfileState extends State<TabProfile> {
                               ),
                               SizedBox(height: 4.0),
                               Text(
-                                authController.userInformation.value['email'] ??
+                                authController.userInformation.value['phone'] ??
                                     'loldemoemail@gmail.com',
                                 style: const TextStyle(
                                   color: Colors.white,

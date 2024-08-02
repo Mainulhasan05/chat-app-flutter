@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app_flutter/controllers/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,7 @@ class ChatDetailsScreen extends StatefulWidget {
 class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   ChatDetailsController chatDetailsController =
       Get.put(ChatDetailsController());
+  AuthController authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             Obx(() => CircleAvatar(
                   radius: 20.0,
                   backgroundImage: CachedNetworkImageProvider(
-                    "https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740",
+                    chatDetailsController.senderInfo.value['avatar'],
                   ),
                   onBackgroundImageError: (error, stackTrace) {
                     // Handle the error here
@@ -88,17 +90,36 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ListView(
+              child: Obx(
+            () => ListView(
               children: [
-                _buildReceivedMessage(context, 'Hi Sajol,'),
-                _buildSentMessage(context, 'Hello, How are you?', true),
-                _buildAudioMessage(context),
-                _buildImageMessage(context),
-                _buildSentMessage(context, 'Error happened', false),
-                _buildReceivedMessage(context, 'This looks great man!!'),
+                ...chatDetailsController.messageList.map(
+                  (message) {
+                    if (message['recipient_id'] ==
+                        authController.userInformation.value['id']) {
+                      return _buildReceivedMessage(context, message['content']);
+                    } else if (message['sender_id'] ==
+                        authController.userInformation.value['id']) {
+                      return _buildSentMessage(
+                          context, message['content'], message['isSuccess']);
+                    }
+                    // else if (message['type'] == 'audio') {
+                    //   return _buildAudioMessage(context);
+                    // } else if (message['type'] == 'image') {
+                    //   return _buildImageMessage(context);
+                    // }
+                    return Container();
+                  },
+                ),
+                // _buildReceivedMessage(context, 'Hi Sajol,'),
+                // _buildSentMessage(context, 'Hello, How are you?', true),
+                // _buildAudioMessage(context),
+                // _buildImageMessage(context),
+                // _buildSentMessage(context, 'Error happened', false),
+                // _buildReceivedMessage(context, 'This looks great man!!'),
               ],
             ),
-          ),
+          )),
           _buildMessageInputField(context),
         ],
       ),

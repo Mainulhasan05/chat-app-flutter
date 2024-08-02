@@ -58,12 +58,18 @@ class AuthController extends GetxController {
         final response = await HttpRequestHelper.post('/auth/login', data);
         print(response);
         if (response['success']) {
+          HttpRequestHelper.setAuthToken(response['data']['token']);
           isLoggedIn.value = true;
           Constant.showToast(response['message']);
+
           homeController.getHomepageData();
           await PrefData.setLogIn(true);
           await PrefData.setToken(response['data']['token']);
+          final user = response['data']['user'];
 
+          await PrefData.setUserInfo(user['id'].toString(), user['full_name'],
+              user['phone'], user['avatar'], user['room_id']);
+          userInformation.value = user;
           Constant.sendToNext(Get.context!, Routes.homeScreenRoute);
         } else {
           Fluttertoast.showToast(
@@ -96,6 +102,7 @@ class AuthController extends GetxController {
         isLoading.value = true;
         final response = await HttpRequestHelper.post('/auth/register', data);
         if (response['status']) {
+          HttpRequestHelper.setAuthToken(response['data']['token']);
           isLoggedIn.value = true;
           homeController.getHomepageData();
           await PrefData.setLogIn(true);
@@ -103,6 +110,12 @@ class AuthController extends GetxController {
           await PrefData.setToken(response['data']['token']);
           Constant.showToast(response['message']);
           userInformation.value = response['data']['user'];
+          await PrefData.setUserInfo(
+              userInformation.value['id'].toString(),
+              userInformation.value['full_name'],
+              userInformation.value['phone'],
+              userInformation.value['avater'],
+              userInformation.value['room_id']);
           Constant.sendToNext(Get.context!, Routes.homeScreenRoute);
         } else {
           final snackBar = SnackBar(
@@ -140,15 +153,17 @@ class AuthController extends GetxController {
   // getUserInformation
   void getUserInformation() async {
     try {
-      print('going to get user info');
-      final response = await HttpRequestHelper.get('/customer-details');
+      final response = await HttpRequestHelper.get('/auth/profile');
       print('getting user info');
       print(response);
-      if (response['token'] == null) {
-        isLoggedIn.value = false;
-        return;
-      }
-      userInformation.value = response['customer'];
+
+      userInformation.value = response['data']['user'];
+      await PrefData.setUserInfo(
+          userInformation.value['id'].toString(),
+          userInformation.value['full_name'],
+          userInformation.value['phone'],
+          userInformation.value['avater'],
+          userInformation.value['room_id']);
       print(userInformation.value);
     } catch (e) {
       print(e);

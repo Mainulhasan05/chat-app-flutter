@@ -197,7 +197,7 @@ class _TabHomeState extends State<TabHome> {
                                 CircleAvatar(
                                   radius: 30.0,
                                   backgroundImage: CachedNetworkImageProvider(
-                                    "https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740",
+                                    chat['user']['avatar'],
                                   ),
                                 ),
                                 const SizedBox(width: 12.0),
