@@ -32,9 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    if (homeController.homeCategories.isEmpty) {
+    if (homeController.privateChatList.isEmpty) {
       homeController.getHomepageData();
-      homeController.getCategories();
     }
     super.initState();
   }

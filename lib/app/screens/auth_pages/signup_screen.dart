@@ -300,7 +300,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Text('Already have an account?'),
                   TextButton(
                     onPressed: () {
-                      // Handle sign up
+                      Get.back();
                     },
                     child: Text('Login',
                         style: TextStyle(

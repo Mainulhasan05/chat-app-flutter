@@ -1,84 +1,105 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefData {
-  static String prefName = "com.example.goinmart";
+  static final String prefName = "com.example.chatapp";
 
-  static String introAvailable = "${prefName}isIntroAvailable";
-  static String isLoggedIn = "${prefName}isLoggedIn";
-  static String getTheme = "${prefName}isSelectedTheme";
-  static String getDefaultCode = "${prefName}code";
-  static String getDefaultCountry = "${prefName}country";
-  static String defIndexVal = "${prefName}index";
-  static String modelBooking = "${prefName}bookingModel";
-  static String defCountryName = "image_albania.jpg";
-  static String token = "";
-  static String cart_token = "";
+  // User data keys
+  static final String userId = "${prefName}userId";
+  static final String userName = "${prefName}userName";
+  static final String userPhone = "${prefName}userPhone";
+  static final String userImage = "${prefName}userImage";
 
-  static Future<SharedPreferences> getPrefInstance() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences;
+  // Other keys
+  static final String introAvailable = "${prefName}isIntroAvailable";
+  static final String isLoggedIn = "${prefName}isLoggedIn";
+  static final String getTheme = "${prefName}isSelectedTheme";
+  static final String getDefaultCode = "${prefName}code";
+  static final String getDefaultCountry = "${prefName}country";
+  static final String defIndexVal = "${prefName}index";
+  static final String modelBooking = "${prefName}bookingModel";
+  static final String defCountryName = "image_albania.jpg";
+
+  // Initialize SharedPreferences
+  static Future<SharedPreferences> _initializePreferences() async {
+    return await SharedPreferences.getInstance();
   }
 
-  static setLogIn(bool avail) async {
-    SharedPreferences preferences = await getPrefInstance();
-    preferences.setBool(isLoggedIn, avail);
+  // Access SharedPreferences
+  static Future<SharedPreferences> get _preferences async {
+    return await _initializePreferences();
   }
 
-  static setToken(String token) async {
-    SharedPreferences preferences = await getPrefInstance();
-    preferences.setString("token", token);
+  static Future<void> setLogIn(bool avail) async {
+    final prefs = await _preferences;
+    await prefs.setBool(isLoggedIn, avail);
   }
 
-  static setCartToken(String token) async {
-    SharedPreferences preferences = await getPrefInstance();
-    preferences.setString("cart_token", token);
+  static Future<void> setToken(String token) async {
+    final prefs = await _preferences;
+    await prefs.setString("token", token);
   }
 
-  static setBookingModel(String avail) async {
-    SharedPreferences preferences = await getPrefInstance();
-    preferences.setString(modelBooking, avail);
+  static Future<void> setCartToken(String token) async {
+    final prefs = await _preferences;
+    await prefs.setString("cart_token", token);
+  }
+
+  static Future<void> setBookingModel(String model) async {
+    final prefs = await _preferences;
+    await prefs.setString(modelBooking, model);
   }
 
   static Future<bool> isLogIn() async {
-    SharedPreferences preferences = await getPrefInstance();
-    bool isIntroAvailable = preferences.getBool(isLoggedIn) ?? false;
-    return isIntroAvailable;
+    final prefs = await _preferences;
+    return prefs.getBool(isLoggedIn) ?? false;
   }
 
   static Future<String> getToken() async {
-    SharedPreferences preferences = await getPrefInstance();
-    String isIntroAvailable = preferences.getString("token") ?? "";
-    return isIntroAvailable;
+    final prefs = await _preferences;
+    return prefs.getString("token") ?? "";
   }
 
   static Future<String> getCartToken() async {
-    SharedPreferences preferences = await getPrefInstance();
-    String isIntroAvailable = preferences.getString("cart_token") ?? "";
-    return isIntroAvailable;
+    final prefs = await _preferences;
+    return prefs.getString("cart_token") ?? "";
   }
 
   static Future<String> getBookingModel() async {
-    SharedPreferences preferences = await getPrefInstance();
-    String isIntroAvailable = preferences.getString(modelBooking) ?? "";
-    return isIntroAvailable;
+    final prefs = await _preferences;
+    return prefs.getString(modelBooking) ?? "";
   }
 
   static Future<int> getDefIndex() async {
-    SharedPreferences preferences = await getPrefInstance();
-    int isIntroAvailable = preferences.getInt(defIndexVal) ?? 0;
-    return isIntroAvailable;
+    final prefs = await _preferences;
+    return prefs.getInt(defIndexVal) ?? 0;
   }
 
   static Future<String> getDefCode() async {
-    SharedPreferences preferences = await getPrefInstance();
-    String isIntroAvailable = preferences.getString(getDefaultCode) ?? "+1";
-    return isIntroAvailable;
+    final prefs = await _preferences;
+    return prefs.getString(getDefaultCode) ?? "+1";
   }
 
   static Future<String> getDefCountry() async {
-    SharedPreferences preferences = await getPrefInstance();
-    String isIntroAvailable =
-        preferences.getString(getDefaultCountry) ?? defCountryName;
-    return isIntroAvailable;
+    final prefs = await _preferences;
+    return prefs.getString(getDefaultCountry) ?? defCountryName;
+  }
+
+  static Future<void> setUserInfo(
+      String id, String name, String phone, String image) async {
+    final prefs = await _preferences;
+    await prefs.setString(userId, id);
+    await prefs.setString(userName, name);
+    await prefs.setString(userPhone, phone);
+    await prefs.setString(userImage, image);
+  }
+
+  static Future<Map<String, String>> getUserInfo() async {
+    final prefs = await _preferences;
+    return {
+      "id": prefs.getString(userId) ?? "",
+      "name": prefs.getString(userName) ?? "",
+      "phone": prefs.getString(userPhone) ?? "",
+      "image": prefs.getString(userImage) ?? "",
+    };
   }
 }

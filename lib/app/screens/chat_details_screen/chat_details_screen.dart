@@ -1,6 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ChatDetailsScreen extends StatelessWidget {
+import '../../../controllers/chat/chat_details_controller.dart';
+
+class ChatDetailsScreen extends StatefulWidget {
+  @override
+  State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
+}
+
+class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
+  ChatDetailsController chatDetailsController =
+      Get.put(ChatDetailsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,24 +24,43 @@ class ChatDetailsScreen extends StatelessWidget {
         ),
         title: Row(
           children: [
-            CircleAvatar(
-              radius: 20.0,
-              backgroundImage: AssetImage(
-                  'assets/kristin.png'), // Replace with actual image asset
-            ),
-            const SizedBox(width: 8.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Kristin Watson',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Active 3m ago',
-                  style: TextStyle(fontSize: 12.0, color: Colors.grey),
-                ),
-              ],
+            Obx(() => CircleAvatar(
+                  radius: 20.0,
+                  backgroundImage: CachedNetworkImageProvider(
+                    "https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740",
+                  ),
+                  onBackgroundImageError: (error, stackTrace) {
+                    // Handle the error here
+                  },
+                  child: CachedNetworkImage(
+                    imageUrl: chatDetailsController.senderInfo.value['avatar'],
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        Image.asset('assets/images/sample_image.png'),
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                      radius: 20.0,
+                      backgroundImage: imageProvider,
+                    ),
+                  ),
+                )),
+            const SizedBox(width: 4.0),
+            Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    chatDetailsController.senderInfo.value['full_name'],
+                    style:
+                        TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    chatDetailsController.senderInfo.value['last_seen'] == null
+                        ? 'Active 30m ago'
+                        : 'Last seen ${chatDetailsController.senderInfo.value['last_seen']}',
+                    style: TextStyle(fontSize: 12.0, color: Colors.grey),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

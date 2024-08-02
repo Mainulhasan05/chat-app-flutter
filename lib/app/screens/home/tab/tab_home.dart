@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app_flutter/controllers/chat/chat_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -20,16 +21,16 @@ class TabHome extends StatefulWidget {
 }
 
 class _TabHomeState extends State<TabHome> {
-  bool _isLoading = true;
-  // set loading to false after 3 seconds
+  HomeController homeController = Get.put(HomeController());
+  ChatDetailsController chatDetailsController =
+      Get.put(ChatDetailsController());
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    if (homeController.privateChatList.isEmpty) {
+      homeController.getHomepageData();
+    }
   }
 
   final List<Chat> chats = [
@@ -152,82 +153,92 @@ class _TabHomeState extends State<TabHome> {
               ),
             ),
 
-            _isLoading
-                ? ListView.builder(
-                    itemCount: 5,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 80,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                : ListView.builder(
-                    itemCount: chats.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Constant.sendToNext(context, Routes.chatDetailRoute);
-                        },
-                        child: Padding(
+            Obx(
+              () => homeController.isLoading.value
+                  ? ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 30.0,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  "https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740",
-                                ),
-                              ),
-                              const SizedBox(width: 12.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    chats[index].name,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4.0),
-                                  Text(
-                                    chats[index].message,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Text(
-                                chats[index].time,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                          child: Container(
+                            height: 80,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
+                        );
+                      },
+                    )
+                  : ListView.builder(
+                      itemCount: homeController.privateChatList.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final chat = homeController.privateChatList[index];
+                        return InkWell(
+                          onTap: () {
+                            chatDetailsController.recipientId.value =
+                                chat['user']['id'];
+                            chatDetailsController.loadMessages();
+                            chatDetailsController.senderInfo.value =
+                                chat['user'];
+
+                            Constant.sendToNext(
+                                context, Routes.chatDetailRoute);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    "https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740",
+                                  ),
+                                ),
+                                const SizedBox(width: 12.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      chat['user']['full_name'],
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4.0),
+                                    Text(
+                                      chat['lastMessage']['content'],
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                Text(
+                                  chat['lastMessage']['createdAt'],
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            )
           ],
         ),
       ),

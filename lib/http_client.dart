@@ -13,7 +13,7 @@ class HttpRequestHelper {
     if (fullUrl) {
       final response =
           await http.get(Uri.parse(endpoint), headers: _getHeaders());
-
+      print(_getHeaders());
       return _handleResponse(response);
     }
     final response =
@@ -72,7 +72,7 @@ class HttpRequestHelper {
     };
 
     if (authToken.isNotEmpty) {
-      headers['Authorization'] = authToken;
+      headers['Authorization'] = "Bearer $authToken";
     }
 
     return headers;

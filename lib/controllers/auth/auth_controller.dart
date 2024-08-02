@@ -1,3 +1,4 @@
+import 'package:chat_app_flutter/controllers/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import '../../base/pref_data.dart';
 import '../../http_client.dart';
 
 class AuthController extends GetxController {
+  HomeController homeController = Get.put(HomeController());
   RxBool isLoggedIn = RxBool(false);
   RxBool isLoading = RxBool(false);
   Rx<dynamic> userInformation = Rx<dynamic>({});
@@ -58,6 +60,7 @@ class AuthController extends GetxController {
         if (response['success']) {
           isLoggedIn.value = true;
           Constant.showToast(response['message']);
+          homeController.getHomepageData();
           await PrefData.setLogIn(true);
           await PrefData.setToken(response['data']['token']);
 
@@ -92,14 +95,14 @@ class AuthController extends GetxController {
       try {
         isLoading.value = true;
         final response = await HttpRequestHelper.post('/auth/register', data);
-
         if (response['status']) {
           isLoggedIn.value = true;
+          homeController.getHomepageData();
           await PrefData.setLogIn(true);
+
           await PrefData.setToken(response['data']['token']);
           Constant.showToast(response['message']);
           userInformation.value = response['data']['user'];
-
           Constant.sendToNext(Get.context!, Routes.homeScreenRoute);
         } else {
           final snackBar = SnackBar(

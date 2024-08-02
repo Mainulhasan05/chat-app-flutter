@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    print("hello bro");
+
     handleLoadings();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -34,7 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void handleLoadings() async {
     final authToken = await PrefData.getToken();
     final isLoggedin = await PrefData.isLogIn();
-    print("AuthToken");
     print(authToken);
     print(isLoggedin);
 
