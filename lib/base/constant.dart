@@ -5,7 +5,7 @@ class Constant {
   static String imagePath = "assets/images/";
   static String iconPath = "assets/icons/";
   static String imageDomain = "http://192.168.1.183:5000";
-  static String domain = "http://192.168.1.183:5000/api";
+  static String domain = "http://192.168.1.183:5000";
 
   static backToPrev(BuildContext context) {
     Navigator.of(context).pop();

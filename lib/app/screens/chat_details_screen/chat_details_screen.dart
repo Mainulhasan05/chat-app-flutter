@@ -15,13 +15,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       Get.put(ChatDetailsController());
   AuthController authController = Get.put(AuthController());
   @override
+  void initState() {
+    print(authController.userInformation.value['id']);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Handle back button press
+            Get.back();
           },
         ),
         title: Row(
@@ -101,7 +107,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                     } else if (message['sender_id'] ==
                         authController.userInformation.value['id']) {
                       return _buildSentMessage(
-                          context, message['content'], message['isSuccess']);
+                          context, message['content'], true);
                     }
                     // else if (message['type'] == 'audio') {
                     //   return _buildAudioMessage(context);
@@ -133,9 +139,23 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 15.0,
-            backgroundImage: AssetImage(
-                'assets/kristin.png'), // Replace with actual image asset
+            radius: 20.0,
+            backgroundImage: CachedNetworkImageProvider(
+              chatDetailsController.senderInfo.value['avatar'],
+            ),
+            onBackgroundImageError: (error, stackTrace) {
+              // Handle the error here
+            },
+            child: CachedNetworkImage(
+              imageUrl: chatDetailsController.senderInfo.value['avatar'],
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) =>
+                  Image.asset('assets/images/sample_image.png'),
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                radius: 20.0,
+                backgroundImage: imageProvider,
+              ),
+            ),
           ),
           const SizedBox(width: 8.0),
           Container(
@@ -256,6 +276,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           ),
           Expanded(
             child: TextField(
+              controller: chatDetailsController.messageController,
               decoration: InputDecoration(
                 hintText: 'Type message',
                 border: OutlineInputBorder(
@@ -270,8 +291,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           ),
           IconButton(
             icon: Icon(Icons.send),
-            onPressed: () {
-              // Handle send button press
+            onPressed: () async {
+              await chatDetailsController.sendMessage();
             },
           ),
         ],

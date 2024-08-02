@@ -55,7 +55,7 @@ class AuthController extends GetxController {
       try {
         isLoading.value = true;
         print(data);
-        final response = await HttpRequestHelper.post('/auth/login', data);
+        final response = await HttpRequestHelper.post('/api/auth/login', data);
         print(response);
         if (response['success']) {
           HttpRequestHelper.setAuthToken(response['data']['token']);
@@ -100,7 +100,8 @@ class AuthController extends GetxController {
 
       try {
         isLoading.value = true;
-        final response = await HttpRequestHelper.post('/auth/register', data);
+        final response =
+            await HttpRequestHelper.post('/api/auth/register', data);
         if (response['status']) {
           HttpRequestHelper.setAuthToken(response['data']['token']);
           isLoggedIn.value = true;
@@ -153,7 +154,7 @@ class AuthController extends GetxController {
   // getUserInformation
   void getUserInformation() async {
     try {
-      final response = await HttpRequestHelper.get('/auth/profile');
+      final response = await HttpRequestHelper.get('/api/auth/profile');
       print('getting user info');
       print(response);
 
@@ -245,65 +246,4 @@ class AuthController extends GetxController {
       }
     }
   }
-
-// /orderapi
-  void getOrderList() async {
-    try {
-      final response = await HttpRequestHelper.get('/orderapi');
-      print('getting order list');
-      print(response);
-      if (response['success'] == 0) {
-        return;
-      }
-      orderList.value = response['data'];
-      print(orderList.value);
-      print('uporer ta paisi');
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final GoogleSignIn _googleSignIn = GoogleSignIn();
-  // final FacebookLogin _facebookLogin = FacebookLogin();
-
-  // final Rx<User> _firebaseUser = Rx<User>(null);
-  // User get user => _firebaseUser.value;
-
-  // @override
-  // void onInit() {
-  //   _firebaseUser.bindStream(_auth.authStateChanges());
-  // }
-
-  // Future<void> signInWithGoogle() async {
-  //   try {
-  //     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  //     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken,
-  //       idToken: googleAuth.idToken,
-  //     );
-  //     await _auth.signInWithCredential(credential);
-  //   } catch (e) {
-  //     Get.snackbar('Error', e.toString());
-  //   }
-  // }
-
-  // Future<void> signInWithFacebook() async {
-  //   try {
-  //     final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
-  //     final AuthCredential credential = FacebookAuthProvider.credential(result.accessToken.token);
-  //     await _auth.signInWithCredential(credential);
-  //   } catch (e) {
-  //     Get.snackbar('Error', e.toString());
-  //   }
-  // }
-
-  // Future<void> signOut() async {
-  //   try {
-  //     await _auth.signOut();
-  //   } catch (e) {
-  //     Get.snackbar('Error', e.toString());
-  //   }
-  // }
 }

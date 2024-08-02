@@ -16,7 +16,7 @@ class HomeController extends GetxController {
     try {
       isLoading.value = true;
 
-      final response = await HttpRequestHelper.get('/chats');
+      final response = await HttpRequestHelper.get('/api/chats');
       print(response);
       privateChatList.value = response['data']['privateChats'];
       groupChatList.value = response['data']['groupChats'];

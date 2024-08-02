@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../http_client.dart';
 
 class ChatDetailsController extends GetxController {
   RxBool isLoading = RxBool(true);
+  RxBool isSending = RxBool(true);
   Rx<dynamic> messageResponse = Rx<dynamic>({});
   Rx<dynamic> senderInfo = Rx<dynamic>({});
   RxList<dynamic> messageList = RxList<dynamic>([]);
@@ -10,6 +12,7 @@ class ChatDetailsController extends GetxController {
   RxInt page = 1.obs;
   RxString search = ''.obs;
   RxInt recipientId = 0.obs;
+  TextEditingController messageController = TextEditingController();
 
   @override
   void onInit() {
@@ -23,7 +26,7 @@ class ChatDetailsController extends GetxController {
       print(senderInfo.value);
       // /messages/private/2?limit=10&page=1&search=
       final response = await HttpRequestHelper.get(
-          '/messages/private/${recipientId.value}?limit=${limit.value}&page=${page.value}&search=${search.value}');
+          '/api/messages/private/${recipientId.value}?limit=${limit.value}&page=${page.value}&search=${search.value}');
       messageList.value = response['data']['messages'];
       print(response);
       isLoading.value = false;
@@ -32,6 +35,26 @@ class ChatDetailsController extends GetxController {
       isLoading.value = false;
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  // handleSendMessage
+  Future<void> sendMessage() async {
+    try {
+      isSending.value = true;
+      final response = await HttpRequestHelper.post('/api/messages/private', {
+        'content': messageController.text,
+        "recipient_id": recipientId.value
+      });
+      print(response);
+      messageController.clear();
+      loadMessages();
+      isSending.value = false;
+    } catch (e) {
+      print(e);
+      isSending.value = false;
+    } finally {
+      isSending.value = false;
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app_flutter/app/service/socket_service.dart';
 import 'package:chat_app_flutter/controllers/chat/chat_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,6 +25,7 @@ class _TabHomeState extends State<TabHome> {
   HomeController homeController = Get.put(HomeController());
   ChatDetailsController chatDetailsController =
       Get.put(ChatDetailsController());
+  final SocketService socketService = SocketService();
 
   @override
   void initState() {
